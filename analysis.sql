@@ -160,12 +160,12 @@ SELECT
 venue_id,
 month,
 monthly_revenue,
-monthly_labor_pct,
-monthly_rev_per_labor_hr,
 monthly_revenue
 - LAG(monthly_revenue)          OVER (PARTITION BY venue_id ORDER BY month) AS revenue_mom,
+monthly_labor_pct,
 monthly_labor_pct
 - LAG(monthly_labor_pct)        OVER (PARTITION BY venue_id ORDER BY month) AS labor_pct_mom,
+monthly_rev_per_labor_hr,
 monthly_rev_per_labor_hr
 - LAG(monthly_rev_per_labor_hr) OVER (PARTITION BY venue_id ORDER BY month) AS rplh_mom
 FROM monthly_kpis
@@ -225,12 +225,12 @@ leaderboard AS (
 SELECT
 month,
 venue_id,
-monthly_rev_per_labor_hr,
-monthly_labor_pct,
 RANK() OVER (
 PARTITION BY month
 ORDER BY monthly_rev_per_labor_hr DESC, monthly_labor_pct ASC
-) AS efficiency_rank
+) AS efficiency_rank,
+monthly_rev_per_labor_hr,
+monthly_labor_pct
 FROM monthly_kpis
 )
 SELECT *
@@ -244,7 +244,7 @@ ORDER BY month, efficiency_rank, venue_id;
 
 -- =====================================================================
 -- 5) RANK DISTRIBUTION BY VENUE (counts of 1st/2nd/3rd) – CTEs only
--- Goal: summarize consistency — how often each venue ranks 1st/2nd/3rd across months
+-- Goal: summarize consistency - how often each venue ranks 1st/2nd/3rd across months
 -- Output columns: venue_id, rank_1_count, rank_2_count, rank_3_count
 -- =====================================================================
 WITH
