@@ -30,6 +30,9 @@ SELECT * FROM public.monthly_efficiency_leaderboard ORDER BY month, efficiency_r
 ```
 
 ## Project Structure
+
+> Note: The schema includes foreign keys and integrity checks for learning purposes. In a production setting, schema design is typically handled by data engineering teams. This project focuses on demonstrating SQL analysis skills rather than enterprise-grade modeling.
+
 - `schema.sql` – Tables + constraints + safe-delete helpers  
 - `load.sql` – Server-side CSV imports  
 - `dq_checks.sql` – Data quality assertions + summary  
